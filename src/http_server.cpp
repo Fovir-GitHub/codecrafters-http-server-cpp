@@ -119,6 +119,18 @@ void HttpServer::Send(const std::string & message)
     }
 }
 
+void HttpServer::Send(const std::vector<std::string> & message_lines)
+{
+    std::string total_message("");
+
+    for (const std::string & msg : message_lines)
+        total_message.append(msg + "\r\n");
+
+    this->Send(total_message);
+
+    return;
+}
+
 bool HttpServer::Receive()
 {
     ssize_t receive_bytes;

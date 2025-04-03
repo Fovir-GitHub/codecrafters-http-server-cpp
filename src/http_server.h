@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 #include <sys/socket.h>
+#include <unordered_map>
+#include <vector>
 
 class HttpServer
 {
@@ -33,8 +35,10 @@ public:
     void SetClient();
 
     void Send(const std::string & message);
+    void Send(const std::vector<std::string> & message_lines);
 
-    bool Receive();
+    bool        Receive();
+    std::string GetReceived() const { return buffer; }
 };
 
 #endif // !_HTTP_SERVER_H_
