@@ -107,9 +107,11 @@ void HttpServer::SetClient()
 
 void HttpServer::Send(const std::string & message)
 {
+    http_message.SetBody(message);
     try
     {
-        if (send(client_fd, message.c_str(), message.size(), 0) < 0)
+        if (send(client_fd, http_message.MakeResponse().c_str(),
+                 http_message.MakeResponse().size(), 0) < 0)
             throw HttpServerException("Send failed");
     }
     catch (const HttpServerException & e)
@@ -145,6 +147,8 @@ bool HttpServer::Receive()
         std::cerr << e.what() << '\n';
         std::exit(HTTP_SERVER_ERROR_CODE);
     }
+
+    http_message = HttpMessage(buffer);
 
     return receive_bytes != 0;
 }
