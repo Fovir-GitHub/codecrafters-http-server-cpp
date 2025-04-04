@@ -1,6 +1,7 @@
 #ifndef _HTTP_SERVER_H_
 #define _HTTP_SERVER_H_
 
+#include "http_message.h"
 #include <arpa/inet.h>
 #include <memory>
 #include <string>
@@ -26,6 +27,8 @@ private:
     int         server_fd;
     int         client_fd;
 
+    HttpMessage http_message;
+
 public:
     HttpServer(const int pt = 4221);
     ~HttpServer();
@@ -36,6 +39,8 @@ public:
 
     void Send(const std::string & message);
     void Send(const std::vector<std::string> & message_lines);
+
+    HttpMessage & GetHttpMessage() { return http_message; }
 
     bool        Receive();
     std::string GetReceived() const { return buffer; }
