@@ -37,7 +37,7 @@ public:
 
     void SetClient();
 
-    void Send(const std::string & message);
+    void Send(const std::string & message = "");
     void Send(const std::vector<std::string> & message_lines);
 
     HttpMessage & GetHttpMessage() { return http_message; }
