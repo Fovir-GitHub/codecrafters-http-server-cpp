@@ -55,14 +55,7 @@ void HttpMessage::SetResponseStatusLine(const std::string & hv)
 void HttpMessage::SetHeaderLine(const std::string & key,
                                 const std::string & value)
 {
-    try
-    {
-        header_lines.at(key) = value;
-    }
-    catch (const std::out_of_range & e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    header_lines[key] = value;
 
     return;
 }
