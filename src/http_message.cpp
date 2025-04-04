@@ -72,7 +72,9 @@ std::string HttpMessage::MakeResponse()
     SetResponseStatusLine();
     std::string response = MakeResponseStatusLine();
 
-    SetContentLength();
+    if (!body.empty())
+        SetContentLength();
+
     for (const auto & [key, value] : header_lines)
         response.append(key + ": " + value + "\r\n");
 
