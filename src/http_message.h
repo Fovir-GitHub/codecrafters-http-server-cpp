@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 const std::unordered_map<std::string, int> HTTP_METHODS = {
     {"GET", 0},
@@ -45,7 +46,8 @@ private:
     std::unordered_map<std::string, std::string> header_lines;
     std::string                                  body;
 
-    std::string TrimInvisibleCharacters(std::string s);
+    std::string                    TrimInvisibleCharacters(std::string s);
+    const std::vector<std::string> ParseRequestPath();
 
 public:
     HttpMessage() {}
@@ -59,6 +61,7 @@ public:
 
     void SetHeaderLine(const std::string & key, const std::string & value);
     void SetBody(const std::string & b) { body = b; }
+    void SetBody();
 
     std::string MakeResponseStatusLine();
     std::string MakeResponse();

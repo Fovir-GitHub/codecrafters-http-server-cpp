@@ -5,6 +5,7 @@
 #include <iostream>
 #include <locale>
 #include <sstream>
+#include <vector>
 
 namespace fs = std::filesystem;
 
@@ -12,6 +13,20 @@ std::string HttpMessage::TrimInvisibleCharacters(std::string s)
 {
     return std::string(s.begin(),
                        std::find_if_not(s.begin(), s.end(), ::isgraph));
+}
+
+const std::vector<std::string> HttpMessage::ParseRequestPath()
+{
+    std::vector<std::string> result;
+    std::string              copy_path = request_status_line.path;
+    copy_path.erase(0, copy_path.find_first_not_of('/'));
+
+    std::istringstream iss(copy_path);
+    std::string        single_path;
+
+    while (std::getline(iss, single_path, '/')) result.push_back(single_path);
+
+    return result;
 }
 
 HttpMessage::HttpMessage(const std::string & buffer)
@@ -60,6 +75,19 @@ void HttpMessage::SetHeaderLine(const std::string & key,
     return;
 }
 
+void HttpMessage::SetBody()
+{
+    std::vector<std::string> parsed_path = ParseRequestPath();
+    parsed_path.push_back("");
+
+    if (parsed_path[0] == "echo")
+        SetBody(parsed_path[1]);
+    else if (parsed_path[0] == "User-Agent")
+        SetBody(header_lines["User-Agent"]);
+
+    return;
+}
+
 std::string HttpMessage::MakeResponseStatusLine()
 {
     return "HTTP/" + response_status_line.http_version + " " +
@@ -72,8 +100,7 @@ std::string HttpMessage::MakeResponse()
     SetResponseStatusLine();
     std::string response = MakeResponseStatusLine();
 
-    if (!body.empty())
-        SetContentLength();
+    SetContentLength();
 
     for (const auto & [key, value] : header_lines)
         response.append(key + ": " + value + "\r\n");
