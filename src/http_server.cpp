@@ -103,6 +103,23 @@ int HttpServer::SetClient()
     return client_fd;
 }
 
+void HttpServer::HandleClient(int client)
+{
+    client_fd = client;
+
+    while (true)
+    {
+        if (!this->Receive())
+            break;
+
+        this->Send();
+    }
+
+    std::cout << "Connection closed\n";
+
+    return;
+}
+
 void HttpServer::Send(const std::string & message)
 {
     http_message.SetBody(message);

@@ -37,6 +37,8 @@ public:
 
     int SetClient();
 
+    void HandleClient(int client);
+
     void Send(const std::string & message = "");
     void Send(const std::vector<std::string> & message_lines);
 
