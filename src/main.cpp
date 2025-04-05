@@ -1,5 +1,3 @@
-#include "http_message.h"
-#include "http_server.h"
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <cstring>
@@ -13,35 +11,6 @@
 
 int main(int argc, char ** argv)
 {
-    HttpServer http_server;
-    bool       initial_step = true;
-
-    http_server.Listen();
-
-    while (true)
-    {
-        // http_server.SetClient();
-
-        // if (initial_step)
-        // {
-        //     std::cout << "Client connected\n";
-        //     initial_step = false;
-        // }
-
-        // if (!http_server.Receive())
-        //     break;
-
-        // http_server.Send();
-
-        int client_fd = http_server.SetClient();
-
-        std::thread([&]() { http_server.HandleClient(client_fd); }).detach();
-    }
-
-    std::cout << "Connection closed\n";
-
-    return 0;
-
     { // Flush after every std::cout / std::cerr
         std::cout << std::unitbuf;
         std::cerr << std::unitbuf;
