@@ -100,8 +100,6 @@ void HttpServer::SetClient()
         std::exit(HTTP_SERVER_ERROR_CODE);
     }
 
-    std::cout << "Client connected\n";
-
     return;
 }
 
