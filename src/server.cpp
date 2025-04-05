@@ -8,6 +8,7 @@
 #include <string>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <thread>
 #include <unistd.h>
 
 int main(int argc, char ** argv)
@@ -19,18 +20,22 @@ int main(int argc, char ** argv)
 
     while (true)
     {
-        http_server.SetClient();
+        // http_server.SetClient();
 
-        if (initial_step)
-        {
-            std::cout << "Client connected\n";
-            initial_step = false;
-        }
+        // if (initial_step)
+        // {
+        //     std::cout << "Client connected\n";
+        //     initial_step = false;
+        // }
 
-        if (!http_server.Receive())
-            break;
+        // if (!http_server.Receive())
+        //     break;
 
-        http_server.Send();
+        // http_server.Send();
+
+        int client_fd = http_server.SetClient();
+
+        std::thread([&]() { http_server.HandleClient(client_fd); }).detach();
     }
 
     std::cout << "Connection closed\n";
