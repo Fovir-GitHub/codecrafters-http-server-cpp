@@ -26,6 +26,8 @@ const std::vector<std::string> HttpMessage::ParseRequestPath()
 
     while (std::getline(iss, single_path, '/')) result.push_back(single_path);
 
+    result.push_back("");
+
     return result;
 }
 
@@ -51,6 +53,9 @@ void HttpMessage::ParseRequest(const std::string & buffer)
 
     body = std::string(std::istreambuf_iterator<char>(iss),
                        std::istreambuf_iterator<char>());
+
+    parsed_path = ParseRequestPath();
+
     return;
 }
 
@@ -77,9 +82,6 @@ void HttpMessage::SetHeaderLine(const std::string & key,
 
 void HttpMessage::SetBody()
 {
-    std::vector<std::string> parsed_path = ParseRequestPath();
-    parsed_path.push_back("");
-
     if (parsed_path[0] == "echo")
         SetBody(parsed_path[1]);
     else if (parsed_path[0] == "User-Agent")
@@ -97,11 +99,17 @@ std::string HttpMessage::MakeResponseStatusLine()
 
 std::string HttpMessage::MakeResponse()
 {
-    SetResponseStatusLine();
+    if (parsed_path[0] == "echo")
+        HandleEcho();
+    else
+    {
+        SetResponseStatusLine();
+        SetBody();
+    }
+
     std::string response = MakeResponseStatusLine();
 
     SetContentLength();
-
     for (const auto & [key, value] : header_lines)
         response.append(key + ": " + value + "\r\n");
 
@@ -109,6 +117,13 @@ std::string HttpMessage::MakeResponse()
     response.append(body);
 
     return response;
+}
+
+void HttpMessage::HandleEcho()
+{
+    SetBody(parsed_path[1]);
+    header_lines["Content-Type"]     = "text/plain";
+    response_status_line.status_code = 200;
 }
 
 void HttpMessage::SetContentLength()

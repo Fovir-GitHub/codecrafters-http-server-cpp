@@ -45,6 +45,7 @@ private:
 
     std::unordered_map<std::string, std::string> header_lines;
     std::string                                  body;
+    std::vector<std::string>                     parsed_path;
 
     std::string                    TrimInvisibleCharacters(std::string s);
     const std::vector<std::string> ParseRequestPath();
@@ -65,6 +66,7 @@ public:
 
     std::string MakeResponseStatusLine();
     std::string MakeResponse();
+    void        HandleEcho();
 
     int  GetContentLength() const { return body.size(); }
     void SetContentLength();
