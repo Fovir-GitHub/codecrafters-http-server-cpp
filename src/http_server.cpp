@@ -105,7 +105,8 @@ int HttpServer::SetClient()
 
 void HttpServer::HandleClient(int client)
 {
-    client_fd = client;
+    int backup_client_fd = client_fd;
+    client_fd            = client;
 
     while (true)
     {
@@ -115,7 +116,7 @@ void HttpServer::HandleClient(int client)
         this->Send();
     }
 
-    std::cout << "Connection closed\n";
+    client_fd = backup_client_fd;
 
     return;
 }
