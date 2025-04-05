@@ -131,17 +131,16 @@ void HttpMessage::HandleEcho()
 
 void HttpMessage::HandleUserAgent()
 {
-    // try
-    // {
-    //     SetBody(header_lines.at("User-Agent"));
-    // }
-    // catch (const std::out_of_range & e)
-    // {
-    //     std::cerr << e.what() << '\n';
-    //     SetBody("");
-    // }
+    try
+    {
+        SetBody(header_lines.at("User-Agent"));
+    }
+    catch (const std::out_of_range & e)
+    {
+        std::cerr << e.what() << '\n';
+        SetBody("");
+    }
 
-    SetBody(header_lines["User-Agent"]);
     header_lines["Content-Type"]     = "text/plain";
     response_status_line.status_code = 200;
 }
