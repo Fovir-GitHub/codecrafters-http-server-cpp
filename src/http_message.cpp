@@ -12,7 +12,7 @@ namespace fs = std::filesystem;
 std::string HttpMessage::TrimInvisibleCharacters(std::string s)
 {
     return std::string(
-        std::find_if(s.begin(), s.end(), ::isspace),
+        std::find_if_not(s.begin(), s.end(), ::isspace),
         std::find_if_not(s.rbegin(), s.rend(), ::isspace).base());
 }
 
