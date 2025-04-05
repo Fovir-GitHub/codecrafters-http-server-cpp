@@ -84,7 +84,7 @@ void HttpServer::Listen()
     return;
 }
 
-void HttpServer::SetClient()
+int HttpServer::SetClient()
 {
     int client_address_length = sizeof(client_address);
 
@@ -100,7 +100,7 @@ void HttpServer::SetClient()
         std::exit(HTTP_SERVER_ERROR_CODE);
     }
 
-    return;
+    return client_fd;
 }
 
 void HttpServer::Send(const std::string & message)

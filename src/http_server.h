@@ -35,7 +35,7 @@ public:
 
     void Listen();
 
-    void SetClient();
+    int SetClient();
 
     void Send(const std::string & message = "");
     void Send(const std::vector<std::string> & message_lines);
