@@ -67,6 +67,7 @@ public:
     std::string MakeResponseStatusLine();
     std::string MakeResponse();
     void        HandleEcho();
+    void        HandleUserAgent();
 
     int  GetContentLength() const { return body.size(); }
     void SetContentLength();

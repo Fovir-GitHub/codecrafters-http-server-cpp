@@ -11,8 +11,9 @@ namespace fs = std::filesystem;
 
 std::string HttpMessage::TrimInvisibleCharacters(std::string s)
 {
-    return std::string(s.begin(),
-                       std::find_if_not(s.begin(), s.end(), ::isgraph));
+    return std::string(
+        std::find_if(s.begin(), s.end(), ::isspace),
+        std::find_if_not(s.rbegin(), s.rend(), ::isspace).base());
 }
 
 const std::vector<std::string> HttpMessage::ParseRequestPath()
@@ -101,6 +102,8 @@ std::string HttpMessage::MakeResponse()
 {
     if (parsed_path[0] == "echo")
         HandleEcho();
+    else if (parsed_path[0] == "user-agent")
+        HandleUserAgent();
     else
     {
         SetResponseStatusLine();
@@ -122,6 +125,22 @@ std::string HttpMessage::MakeResponse()
 void HttpMessage::HandleEcho()
 {
     SetBody(parsed_path[1]);
+    header_lines["Content-Type"]     = "text/plain";
+    response_status_line.status_code = 200;
+}
+
+void HttpMessage::HandleUserAgent()
+{
+    try
+    {
+        SetBody(header_lines.at("User-Agent"));
+    }
+    catch (const std::out_of_range & e)
+    {
+        std::cerr << e.what() << '\n';
+        SetBody("");
+    }
+
     header_lines["Content-Type"]     = "text/plain";
     response_status_line.status_code = 200;
 }
