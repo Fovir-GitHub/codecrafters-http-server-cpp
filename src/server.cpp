@@ -13,17 +13,23 @@
 int main(int argc, char ** argv)
 {
     HttpServer http_server;
+    bool       initial_step = true;
 
     http_server.Listen();
-    http_server.SetClient();
 
     while (true)
     {
+        http_server.SetClient();
+
+        if (initial_step)
+        {
+            std::cout << "Client connected\n";
+            initial_step = false;
+        }
+
         if (!http_server.Receive())
             break;
 
-        http_server.GetHttpMessage().ClearHeader();
-        http_server.GetHttpMessage().SetBody("");
         http_server.Send();
     }
 
