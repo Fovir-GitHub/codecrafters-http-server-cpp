@@ -1,8 +1,17 @@
 #include "server.h"
 #include <arpa/inet.h>
 #include <cstdlib>
+#include <filesystem>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <vector>
+
+namespace fs = std::filesystem;
+
+static bool existFile(const std::string & file_name)
+{
+    return fs::exists(fs::current_path().string() + "/" + file_name);
+}
 
 static void terminateProgram()
 {
@@ -154,4 +163,10 @@ void server::Server::HandleClient(int client_fd)
     std::cout << "Connection closed\n";
 
     return;
+}
+
+void server::Server::SetResponse()
+{
+    const std::vector<std::string> & request_path =
+        http_message.GetRequestPointer()->GetParsedPath();
 }
