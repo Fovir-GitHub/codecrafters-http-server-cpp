@@ -1,3 +1,4 @@
+#include "server/server.h"
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <cstring>
@@ -11,6 +12,20 @@
 
 int main(int argc, char ** argv)
 {
+    server::Server http_server(4221);
+
+    http_server.InitializeSocket();
+    http_server.Listen();
+
+    while (true)
+    {
+        int client_fd = http_server.AcceptClient();
+
+        std::thread([&]() { http_server.HandleClient(client_fd); }).detach();
+    }
+
+    return 0;
+
     { // Flush after every std::cout / std::cerr
         std::cout << std::unitbuf;
         std::cerr << std::unitbuf;
