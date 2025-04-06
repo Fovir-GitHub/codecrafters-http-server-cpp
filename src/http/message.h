@@ -49,6 +49,17 @@ private:
 
     public:
         Request(const std::string & original_request);
+
+        const std::vector<std::string> & GetParsedPath() const
+        {
+            return parsed_path;
+        }
+
+        const std::unordered_map<std::string, std::string> &
+        GetHeaderLines() const
+        {
+            return header_lines;
+        }
     };
 
     class Response
