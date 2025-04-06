@@ -180,6 +180,8 @@ void server::Server::SetResponse()
 
     if (request_path.at(0) == "echo")
         HandleEcho(request_path);
+    else if (request_path.at(0) == "user-agent")
+        HandleUserAgent();
     else if (!existFile(request_path.at(0)))
         http_message.GetResponsePointer()->SetStatusCode(404);
 
