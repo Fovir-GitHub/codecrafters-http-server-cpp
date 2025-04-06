@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #define BEGIN_MESSAGE_NAMESPACE \
     namespace message           \
@@ -26,6 +27,7 @@ private:
             StatusLine() {}
         } status_line;
 
+        std::vector<std::string>                     parsed_path;
         std::unordered_map<std::string, std::string> header_lines;
         std::string                                  body;
 
@@ -37,6 +39,8 @@ private:
          * @return std::string the string after trim
          */
         std::string TrimInvisibleCharacters(const std::string & s);
+
+        void ParsePath();
 
     public:
         Request(const std::string & original_request);

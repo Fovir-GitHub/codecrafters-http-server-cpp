@@ -11,6 +11,23 @@ message::Message::Request::TrimInvisibleCharacters(const std::string & s)
         std::find_if_not(s.rbegin(), s.rend(), ::isspace).base());
 }
 
+void message::Message::Request::ParsePath()
+{
+    std::string copy_path = status_line.path;
+
+    copy_path.erase(0, copy_path.find_first_not_of('/'));
+
+    std::istringstream iss(copy_path);
+    std::string        single_path;
+
+    while (std::getline(iss, single_path, '/'))
+        parsed_path.push_back(single_path);
+
+    parsed_path.push_back("");
+
+    return;
+}
+
 message::Message::Request::Request(const std::string & original_request)
 {
     std::string        temp;
