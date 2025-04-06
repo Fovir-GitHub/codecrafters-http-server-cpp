@@ -68,6 +68,19 @@ message::Message::Request::Request(const std::string & original_request)
     ParsePath(); /* Parse the request path */
 }
 
+const std::string &
+message::Message::Request::GetHeaderLines(const std::string & key) const
+{
+    try
+    {
+        return header_lines.at(key);
+    }
+    catch (const std::out_of_range &)
+    {
+        return std::string();
+    }
+}
+
 void message::Message::Response::SetHeaderLine(const std::string & key,
                                                const std::string & value)
 {

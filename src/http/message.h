@@ -61,6 +61,8 @@ private:
         {
             return header_lines;
         }
+
+        const std::string & GetHeaderLines(const std::string & key) const;
     };
 
     class Response
