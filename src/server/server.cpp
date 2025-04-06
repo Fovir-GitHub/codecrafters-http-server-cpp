@@ -178,10 +178,29 @@ void server::Server::SetResponse()
     const std::vector<std::string> & request_path =
         http_message.GetRequestPointer()->GetParsedPath();
 
-    if (!existFile(request_path.at(0)))
+    if (request_path.at(0) == "echo")
+        HandleEcho(request_path);
+    else if (!existFile(request_path.at(0)))
         http_message.GetResponsePointer()->SetStatusCode(404);
 
     http_message.GetResponsePointer()->MakeResponse();
+
+    return;
+}
+
+void server::Server::HandleEcho(const std::vector<std::string> & request_path)
+{
+    try
+    {
+        http_message.GetResponsePointer()->SetBody(request_path.at(1));
+    }
+    catch (const std::out_of_range & e)
+    {
+        std::cout << e.what() << '\n';
+    }
+
+    http_message.GetResponsePointer()->SetHeaderLine("Content-Type",
+                                                     "text/plain");
 
     return;
 }

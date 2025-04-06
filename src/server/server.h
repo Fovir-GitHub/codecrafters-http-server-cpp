@@ -74,6 +74,8 @@ public:
      *@brief Set the response
      */
     void SetResponse();
+
+    void HandleEcho(const std::vector<std::string> & request_path);
 };
 
 class ServerException : std::exception
