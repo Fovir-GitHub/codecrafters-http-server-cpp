@@ -146,9 +146,9 @@ void server::Server::HandleClient(int client_fd)
         if ((received_message = this->Receive(client_fd)) == "")
             break;
 
-        std::cout << "Receive:\n" << received_message << '\n';
-
-        this->Send(client_fd, "This is a message\n");
+        http_message.SetRequest(received_message);
+        http_message.GetResponsePointer()->MakeResponse();
+        this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
     }
 
     std::cout << "Connection closed\n";
