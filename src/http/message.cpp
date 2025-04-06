@@ -86,7 +86,7 @@ message::Message::Request::GetHeaderLines(const std::string & key) const
     }
 }
 
-const std::string & message::Message::Request::GetFullPath() const
+const std::string message::Message::Request::GetFullPath() const
 {
     return fs::current_path().string() + status_line.path;
 }

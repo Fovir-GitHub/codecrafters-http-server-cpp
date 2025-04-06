@@ -66,7 +66,7 @@ private:
 
         const std::string & GetOriginalPath() const { return status_line.path; }
 
-        const std::string & GetFullPath() const;
+        const std::string GetFullPath() const;
     };
 
     class Response
