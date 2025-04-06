@@ -1,6 +1,7 @@
 #ifndef _SERVER_H_
 #define _SERVER_H_
 
+#include "../http/message.h"
 #include <exception>
 #include <iostream>
 #include <stdexcept>
@@ -20,7 +21,8 @@ private:
 
     const int PORT = 4221;
 
-    int server_fd;
+    int              server_fd;
+    message::Message http_message;
 
 public:
     Server(int port) : PORT(port) {}
