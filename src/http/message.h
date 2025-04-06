@@ -70,6 +70,7 @@ private:
 
         std::string                                  response;
         std::unordered_map<std::string, std::string> header_lines;
+        std::string                                  body;
 
     public:
         Response(int st);
@@ -86,6 +87,11 @@ private:
          *@brief Clear the header lines
          */
         void ClearHeaderLine() { header_lines.clear(); }
+
+        /**
+         *@brief Construct `response` member value
+         */
+        void MakeResponse();
     };
 
     std::unique_ptr<Request> request;

@@ -78,3 +78,17 @@ void message::Message::Response::SetHeaderLine(const std::string & key,
 {
     header_lines[key] = value;
 }
+
+void message::Message::Response::MakeResponse()
+{
+    // Set the status line
+    response = "HTTP/" + status_line.http_version + " " +
+               std::to_string(status_line.status_code) + " " +
+               HTTP_STATUS_CODE.at(status_line.status_code) + "\r\n";
+
+    for (const auto & [key, value] : header_lines)
+        response.append(key + ": " + value + "\r\n");
+
+    response.append("\r\n");
+    response.append(body);
+}
