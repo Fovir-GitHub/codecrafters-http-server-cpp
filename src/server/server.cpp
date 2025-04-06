@@ -8,6 +8,13 @@
 
 namespace fs = std::filesystem;
 
+/**
+ *@brief Check whether the file exists in current directory
+ *
+ * @param file_name the name of the file to check
+ * @return true the file exists
+ * @return false the file does not exist
+ */
 static bool existFile(const std::string & file_name)
 {
     return fs::exists(fs::current_path().string() + "/" + file_name);
