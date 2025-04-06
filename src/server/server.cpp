@@ -60,6 +60,26 @@ int server::Server::InitializeSocket()
     return server_fd;
 }
 
+void server::Server::Listen()
+{
+    // The maximum number of connection
+    int connection_backlog = 5;
+
+    try
+    {
+        // Fail to listen
+        if (listen(server_fd, connection_backlog) != 0)
+            throw server::ServerException("listen failed");
+    }
+    catch (const server::ServerException & e)
+    {
+        std::cerr << e.what() << '\n';
+        terminateProgram();
+    }
+
+    return;
+}
+
 int server::Server::AcceptClient()
 {
     // Set the client
@@ -112,6 +132,26 @@ void server::Server::Send(int client_fd, const std::string & message)
     {
         std::cerr << e.what() << '\n';
     }
+
+    return;
+}
+
+void server::Server::HandleClient(int client_fd)
+{
+    std::string received_message;
+
+    while (true)
+    {
+        // If the received message is empty, then the connection is closed
+        if ((received_message = this->Receive(client_fd)) == "")
+            break;
+
+        std::cout << "Receive:\n" << received_message << '\n';
+
+        this->Send(client_fd, "This is a message\n");
+    }
+
+    std::cout << "Connection closed\n";
 
     return;
 }

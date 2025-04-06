@@ -20,7 +20,7 @@ private:
 
     const int PORT = 4221;
 
-    static int server_fd;
+    int server_fd;
 
 public:
     Server(int port) : PORT(port) {}
@@ -32,6 +32,11 @@ public:
      * @return int server_fd
      */
     int InitializeSocket();
+
+    /**
+     *@brief Listen the port for coming data
+     */
+    void Listen();
 
     /**
      *@brief Accept the connection from client
@@ -55,6 +60,8 @@ public:
      * @param message the message to be sent
      */
     void Send(int client_fd, const std::string & message);
+
+    void HandleClient(int client_fd);
 };
 
 class ServerException : std::exception
