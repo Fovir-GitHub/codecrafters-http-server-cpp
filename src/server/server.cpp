@@ -100,3 +100,18 @@ std::string server::Server::Receive(int client_fd)
     */
     return receive_bytes == 0 ? "" : received;
 }
+
+void server::Server::Send(int client_fd, const std::string & message)
+{
+    try
+    {
+        if (send(client_fd, message.c_str(), message.size(), 0) < 0)
+            throw server::ServerException("send failed");
+    }
+    catch (const ServerException & e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    return;
+}

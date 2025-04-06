@@ -47,6 +47,14 @@ public:
      * @return std::string the data received from client
      */
     std::string Receive(int client_fd);
+
+    /**
+     * @brief Send message to the client
+     *
+     * @param client_fd the client
+     * @param message the message to be sent
+     */
+    void Send(int client_fd, const std::string & message);
 };
 
 class ServerException : std::exception
