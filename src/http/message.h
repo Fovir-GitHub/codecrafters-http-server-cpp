@@ -73,6 +73,14 @@ private:
 
     public:
         Response(int st);
+
+        /**
+         * @brief Set one header line with key-value pair
+         *
+         * @param key the name of the header
+         * @param value the value of the header
+         */
+        void SetHeaderLine(const std::string & key, const std::string & value);
     };
 
     std::unique_ptr<Request> request;
