@@ -43,6 +43,9 @@ message::Message::Request::Request(const std::string & original_request)
     status_line.http_version = std::string(
         std::find_if(temp.begin(), temp.end(), ::isdigit), temp.end());
 
+    // Ignore empty lines
+    while (std::getline(iss, temp) && temp == "\r");
+
     // Get headers
     while (std::getline(iss, temp) && temp != "\r")
     {
