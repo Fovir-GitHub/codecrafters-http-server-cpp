@@ -55,4 +55,6 @@ message::Message::Request::Request(const std::string & original_request)
     // The remain part is body
     body = std::string(std::istreambuf_iterator<char>(iss),
                        std::istreambuf_iterator<char>());
+
+    ParsePath(); /* Parse the request path */
 }
