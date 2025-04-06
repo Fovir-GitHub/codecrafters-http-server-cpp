@@ -75,3 +75,28 @@ int server::Server::AcceptClient()
     // Return the client_fd
     return client_fd;
 }
+
+std::string server::Server::Receive(int client_fd)
+{
+    // Received data
+    std::string received(BUFFER_LENGTH, '\0');
+    ssize_t     receive_bytes; /* Received bytes */
+
+    try
+    {
+        // Fail to receive data
+        if ((receive_bytes =
+                 recv(client_fd, &received[0], received.size(), 0)) < 0)
+            throw server::ServerException("receive failed");
+    }
+    catch (const server::ServerException & e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    /*
+    If the receive_bytes is 0, it means the connection is closed.
+    By returning empty string, the main program can handle the situation.
+    */
+    return receive_bytes == 0 ? "" : received;
+}

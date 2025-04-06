@@ -39,6 +39,14 @@ public:
      * @return int client_fd
      */
     int AcceptClient();
+
+    /**
+     *@brief Receive data from client
+     *
+     * @param client_fd the client
+     * @return std::string the data received from client
+     */
+    std::string Receive(int client_fd);
 };
 
 class ServerException : std::exception
