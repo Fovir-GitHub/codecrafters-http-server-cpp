@@ -40,6 +40,9 @@ private:
          */
         std::string TrimInvisibleCharacters(const std::string & s);
 
+        /**
+         * @brief Parse the request path
+         */
         void ParsePath();
 
     public:
