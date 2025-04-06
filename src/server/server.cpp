@@ -17,7 +17,8 @@ namespace fs = std::filesystem;
  */
 static bool existFile(const std::string & file_name)
 {
-    return fs::exists(fs::current_path().string() + "/" + file_name);
+    return fs::exists(fs::current_path().string() + "/" + file_name) ||
+           file_name == "/" || file_name.empty();
 }
 
 static void terminateProgram()
@@ -163,7 +164,7 @@ void server::Server::HandleClient(int client_fd)
             break;
 
         http_message.SetRequest(received_message);
-        http_message.GetResponsePointer()->MakeResponse();
+        this->SetResponse();
         this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
     }
 
@@ -176,4 +177,11 @@ void server::Server::SetResponse()
 {
     const std::vector<std::string> & request_path =
         http_message.GetRequestPointer()->GetParsedPath();
+
+    if (!existFile(request_path.at(0)))
+        http_message.GetResponsePointer()->SetStatusCode(404);
+
+    http_message.GetResponsePointer()->MakeResponse();
+
+    return;
 }
