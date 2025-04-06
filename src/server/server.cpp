@@ -1,4 +1,5 @@
 #include "server.h"
+#include <algorithm>
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <filesystem>
@@ -12,13 +13,16 @@ namespace fs = std::filesystem;
  *@brief Check whether the file exists in current directory
  *
  * @param file_name the name of the file to check
+ * @param full_path whether the file name is the full path of the file
  * @return true the file exists
  * @return false the file does not exist
  */
-static bool existFile(const std::string & file_name)
+static bool existFile(const std::string & file_name, bool full_path = false)
 {
-    return fs::exists(fs::current_path().string() + "/" + file_name) ||
-           file_name == "/" || file_name.empty();
+    return !full_path
+               ? (fs::exists(fs::current_path().string() + "/" + file_name) ||
+                  file_name == "/" || file_name.empty())
+               : (fs::exists(file_name));
 }
 
 static void terminateProgram()
@@ -216,4 +220,21 @@ void server::Server::HandleUserAgent()
                                                      "text/plain");
 
     return;
+}
+
+void server::Server::HandleFile()
+{
+    bool file_exists =
+        existFile(http_message.GetRequestPointer()->GetOriginalPath().substr(
+            http_message.GetRequestPointer()
+                ->GetOriginalPath()
+                .find_first_not_of('/'),
+            http_message.GetRequestPointer()->GetOriginalPath().size()));
+
+    if (file_exists)
+    {
+        http_message.GetResponsePointer()->SetStatusCode(200);
+        http_message.GetResponsePointer()->SetHeaderLine(
+            "Content-Type", "application/octet-stream");
+    }
 }
