@@ -81,6 +81,7 @@ void message::Message::Response::MakeResponse()
                std::to_string(status_line.status_code) + " " +
                HTTP_STATUS_CODE.at(status_line.status_code) + "\r\n";
 
+    this->SetHeaderLine("Content-Length", std::to_string(body.size()));
     for (const auto & [key, value] : header_lines)
         response.append(key + ": " + value + "\r\n");
 
