@@ -1,7 +1,10 @@
 #include "message.h"
 #include <algorithm>
 #include <cctype>
+#include <filesystem>
 #include <sstream>
+
+namespace fs = std::filesystem;
 
 const std::unordered_map<int, std::string>
     message::Message::Response::HTTP_STATUS_CODE = {
@@ -81,6 +84,11 @@ message::Message::Request::GetHeaderLines(const std::string & key) const
     {
         return empty_string;
     }
+}
+
+const std::string & message::Message::Request::GetFullPath() const
+{
+    return fs::current_path().string() + status_line.path;
 }
 
 void message::Message::Response::SetHeaderLine(const std::string & key,

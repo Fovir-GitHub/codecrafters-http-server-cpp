@@ -63,6 +63,10 @@ private:
         }
 
         const std::string & GetHeaderLines(const std::string & key) const;
+
+        const std::string & GetOriginalPath() const { return status_line.path; }
+
+        const std::string & GetFullPath() const;
     };
 
     class Response
