@@ -16,6 +16,8 @@ BEGIN_SERVER_NAMESPACE
 class Server
 {
 private:
+    enum { BUFFER_LENGTH = 1024 };
+
     const int PORT = 4221;
 
     static int server_fd;
