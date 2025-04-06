@@ -55,6 +55,24 @@ private:
     {
     private:
         const static std::unordered_map<int, std::string> HTTP_STATUS_CODE;
+
+        struct StatusLine
+        {
+            int         status_code;
+            std::string http_version;
+
+            StatusLine(int sc = 200, const std::string & hv = "1.1")
+                : status_code(sc)
+                , http_version(hv)
+            {
+            }
+        } status_line;
+
+        std::string                                  response;
+        std::unordered_map<std::string, std::string> header_lines;
+
+    public:
+        Response(int st);
     };
 
     std::unique_ptr<Request> request;
