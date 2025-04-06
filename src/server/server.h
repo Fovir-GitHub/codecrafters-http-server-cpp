@@ -61,6 +61,11 @@ public:
      */
     void Send(int client_fd, const std::string & message);
 
+    /**
+     *@brief Handle the client
+     *
+     * @param client_fd the client file description
+     */
     void HandleClient(int client_fd);
 };
 
