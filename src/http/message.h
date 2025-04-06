@@ -137,7 +137,11 @@ public:
         request = std::make_unique<Request>(msg);
     }
 
-    std::unique_ptr<Request> &  GetRequestPointer() { return request; }
+    const std::unique_ptr<Request> & GetRequestPointer() const
+    {
+        return request;
+    }
+
     std::unique_ptr<Response> & GetResponsePointer() { return response; }
 };
 
