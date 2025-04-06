@@ -126,6 +126,11 @@ public:
     }
 
     Message() {}
+
+    void SetRequest(const std::string & msg)
+    {
+        request = std::make_unique<Request>(msg);
+    }
 };
 
 END_MESSAGE_NAMESPACE
