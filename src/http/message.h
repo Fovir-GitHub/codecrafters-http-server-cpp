@@ -115,10 +115,13 @@ private:
         const std::string & GetResponse() const { return response; }
     };
 
-    std::unique_ptr<Request> request;
+    std::unique_ptr<Request>  request;
+    std::unique_ptr<Response> response;
 
 public:
-    Message(const std::string & msg) : request(std::make_unique<Request>(msg))
+    Message(const std::string & msg)
+        : request(std::make_unique<Request>(msg))
+        , response(std::make_unique<Response>())
     {
     }
 };
