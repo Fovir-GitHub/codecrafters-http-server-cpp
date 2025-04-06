@@ -12,6 +12,7 @@ find_package(ZLIB REQUIRED)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(server ${SOURCE_FILES})
+add_subdirectory(src)
+add_executable(server src/main.cpp)
 
-target_link_libraries(server PRIVATE Threads::Threads ZLIB::ZLIB)
+target_link_libraries(server PRIVATE server_module Threads::Threads ZLIB::ZLIB)
