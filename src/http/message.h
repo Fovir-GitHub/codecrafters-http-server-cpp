@@ -53,6 +53,8 @@ private:
 
     class Response
     {
+    private:
+        const static std::unordered_map<int, std::string> HTTP_STATUS_CODE;
     };
 
     std::unique_ptr<Request> request;
