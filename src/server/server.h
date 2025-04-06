@@ -81,6 +81,8 @@ public:
      * @param request_path the parsed path
      */
     void HandleEcho(const std::vector<std::string> & request_path);
+
+    void HandleUserAgent();
 };
 
 class ServerException : std::exception

@@ -204,3 +204,14 @@ void server::Server::HandleEcho(const std::vector<std::string> & request_path)
 
     return;
 }
+
+void server::Server::HandleUserAgent()
+{
+    http_message.GetResponsePointer()->SetBody(
+        http_message.GetRequestPointer()->GetHeaderLines("User-Agent"));
+
+    http_message.GetResponsePointer()->SetHeaderLine("Content-Type",
+                                                     "text/plain");
+
+    return;
+}
