@@ -71,13 +71,15 @@ message::Message::Request::Request(const std::string & original_request)
 const std::string &
 message::Message::Request::GetHeaderLines(const std::string & key) const
 {
+    static const std::string empty_string;
+
     try
     {
         return header_lines.at(key);
     }
     catch (const std::out_of_range &)
     {
-        return std::string();
+        return empty_string;
     }
 }
 
