@@ -1,6 +1,8 @@
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_
 
+#include <iostream>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -52,6 +54,13 @@ private:
     class Response
     {
     };
+
+    std::unique_ptr<Request> request;
+
+public:
+    Message(const std::string & msg) : request(std::make_unique<Request>(msg))
+    {
+    }
 };
 
 END_MESSAGE_NAMESPACE
