@@ -18,7 +18,7 @@ class Server
 private:
     const int PORT = 4221;
 
-    int server_fd;
+    static int server_fd;
 
 public:
     Server(int port) : PORT(port) {}
