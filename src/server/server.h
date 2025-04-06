@@ -75,6 +75,11 @@ public:
      */
     void SetResponse();
 
+    /**
+     *@brief Set the response when the client calls `/echo/xxx` path
+     *
+     * @param request_path the parsed path
+     */
     void HandleEcho(const std::vector<std::string> & request_path);
 };
 
