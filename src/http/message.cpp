@@ -68,11 +68,6 @@ message::Message::Request::Request(const std::string & original_request)
     ParsePath(); /* Parse the request path */
 }
 
-message::Message::Response::Response(int st)
-{
-    status_line.status_code = st;
-}
-
 void message::Message::Response::SetHeaderLine(const std::string & key,
                                                const std::string & value)
 {

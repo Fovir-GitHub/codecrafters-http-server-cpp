@@ -49,6 +49,7 @@ private:
 
     public:
         Request(const std::string & original_request);
+        Request() {}
 
         const std::vector<std::string> & GetParsedPath() const
         {
@@ -69,14 +70,14 @@ private:
 
         struct StatusLine
         {
-            int         status_code;
-            std::string http_version;
+            int         status_code  = 200;
+            std::string http_version = "1.1";
 
-            StatusLine(int sc = 200, const std::string & hv = "1.1")
-                : status_code(sc)
-                , http_version(hv)
-            {
-            }
+            // StatusLine(int sc = 200, const std::string & hv = "1.1")
+            //     : status_code(sc)
+            //     , http_version(hv)
+            // {
+            // }
         } status_line;
 
         std::string                                  response;
@@ -84,7 +85,7 @@ private:
         std::string                                  body;
 
     public:
-        Response(int st = 200);
+        Response() {}
 
         /**
          * @brief Set one header line with key-value pair
@@ -125,12 +126,18 @@ public:
     {
     }
 
-    Message() {}
+    Message()
+        : request(std::make_unique<Request>())
+        , response(std::make_unique<Response>())
+    {
+    }
 
     void SetRequest(const std::string & msg)
     {
         request = std::make_unique<Request>(msg);
     }
+
+    std::unique_ptr<Response> & GetResponseClass() { return response; }
 };
 
 END_MESSAGE_NAMESPACE
