@@ -124,6 +124,8 @@ public:
         , response(std::make_unique<Response>())
     {
     }
+
+    Message() {}
 };
 
 END_MESSAGE_NAMESPACE
