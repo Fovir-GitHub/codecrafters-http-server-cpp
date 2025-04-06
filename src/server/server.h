@@ -69,6 +69,11 @@ public:
      * @param client_fd the client file description
      */
     void HandleClient(int client_fd);
+
+    /**
+     *@brief Set the response
+     */
+    void SetResponse();
 };
 
 class ServerException : std::exception
