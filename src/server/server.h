@@ -23,6 +23,12 @@ private:
 public:
     Server(int port) : PORT(port) {}
 
+    /**
+     *@brief Initialize the socket by setting the socket options
+     * and bind it to the port
+     *
+     * @return int server_fd
+     */
     int InitializeSocket();
 };
 

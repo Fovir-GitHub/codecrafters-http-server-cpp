@@ -13,8 +13,8 @@ int server::Server::InitializeSocket()
 {
     try
     {
-        server_fd = socket(AF_INET, SOCK_STREAM, 0);
-        if (server_fd < 0)
+        server_fd = socket(AF_INET, SOCK_STREAM, 0); /* Set server_fd */
+        if (server_fd < 0) /* Failed to create socket */
             throw server::ServerException("Failed to create server socket");
     }
     catch (const server::ServerException & e)
@@ -23,9 +23,11 @@ int server::Server::InitializeSocket()
         terminateProgram();
     }
 
+    // Allow to reuse the port
     int reuse = 1;
     try
     {
+        // If failed to set the socket option
         if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuse,
                        sizeof(reuse)) < 0)
             throw server::ServerException("setsockopt failed");
@@ -36,13 +38,15 @@ int server::Server::InitializeSocket()
         terminateProgram();
     }
 
+    // Bind socket to the address
     sockaddr_in server_address;
-    server_address.sin_family      = AF_INET;
-    server_address.sin_addr.s_addr = INADDR_ANY;
-    server_address.sin_port        = htons(PORT);
+    server_address.sin_family      = AF_INET;     /* Use IPV4 */
+    server_address.sin_addr.s_addr = INADDR_ANY;  /* Use 0.0.0.0 */
+    server_address.sin_port        = htons(PORT); /* Set port */
 
     try
     {
+        // Fail to bind the port
         if (bind(server_fd, (sockaddr *) &server_address,
                  sizeof(server_address)) != 0)
             throw server::ServerException("Failed to bind to port 4221");
@@ -52,4 +56,6 @@ int server::Server::InitializeSocket()
         std::cerr << e.what() << '\n';
         terminateProgram();
     }
+
+    return server_fd;
 }
