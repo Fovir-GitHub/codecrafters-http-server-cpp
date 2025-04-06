@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <filesystem>
+#include <fstream>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <vector>
@@ -186,8 +187,8 @@ void server::Server::SetResponse()
         HandleEcho(request_path);
     else if (request_path.at(0) == "user-agent")
         HandleUserAgent();
-    else if (!existFile(request_path.at(0)))
-        http_message.GetResponsePointer()->SetStatusCode(404);
+    else
+        HandleFile();
 
     http_message.GetResponsePointer()->MakeResponse();
 
@@ -224,17 +225,25 @@ void server::Server::HandleUserAgent()
 
 void server::Server::HandleFile()
 {
-    bool file_exists =
-        existFile(http_message.GetRequestPointer()->GetOriginalPath().substr(
-            http_message.GetRequestPointer()
-                ->GetOriginalPath()
-                .find_first_not_of('/'),
-            http_message.GetRequestPointer()->GetOriginalPath().size()));
-
-    if (file_exists)
+    // If the file exists
+    if (existFile(http_message.GetRequestPointer()->GetFullPath(), true))
     {
         http_message.GetResponsePointer()->SetStatusCode(200);
         http_message.GetResponsePointer()->SetHeaderLine(
             "Content-Type", "application/octet-stream");
+
+        // Read the file content
+        std::ifstream      fin(http_message.GetRequestPointer()->GetFullPath(),
+                               std::ios::binary);
+        std::ostringstream oss;
+        char               ch;
+
+        while (fin.get(ch)) oss << ch;
+
+        http_message.GetResponsePointer()->SetBody(oss.str());
     }
+    else
+        http_message.GetResponsePointer()->SetStatusCode(404);
+
+    return;
 }

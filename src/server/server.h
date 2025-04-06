@@ -86,6 +86,11 @@ public:
      *@brief Set the response when the client calls `/user-agent` path
      */
     void HandleUserAgent();
+
+    /**
+     *@brief Set the response when the client tries to access a file
+     */
+    void HandleFile();
 };
 
 class ServerException : std::exception
