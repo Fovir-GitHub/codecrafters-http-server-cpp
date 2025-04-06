@@ -137,7 +137,8 @@ public:
         request = std::make_unique<Request>(msg);
     }
 
-    std::unique_ptr<Response> & GetResponseClass() { return response; }
+    std::unique_ptr<Request> &  GetRequestPointer() { return request; }
+    std::unique_ptr<Response> & GetResponsePointer() { return response; }
 };
 
 END_MESSAGE_NAMESPACE
