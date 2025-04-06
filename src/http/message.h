@@ -81,6 +81,11 @@ private:
          * @param value the value of the header
          */
         void SetHeaderLine(const std::string & key, const std::string & value);
+
+        /**
+         *@brief Clear the header lines
+         */
+        void ClearHeaderLine() { header_lines.clear(); }
     };
 
     std::unique_ptr<Request> request;
