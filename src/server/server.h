@@ -82,6 +82,9 @@ public:
      */
     void HandleEcho(const std::vector<std::string> & request_path);
 
+    /**
+     *@brief Set the response when the client calls `/user-agent` path
+     */
     void HandleUserAgent();
 };
 
