@@ -59,3 +59,19 @@ int server::Server::InitializeSocket()
 
     return server_fd;
 }
+
+int server::Server::AcceptClient()
+{
+    // Set the client
+    sockaddr_in client_address;
+    int         client_address_length = sizeof(client_address);
+
+    std::cout << "Waiting for a client to connect...\n";
+
+    // Accept the connection from client
+    int client_fd = accept(server_fd, (sockaddr *) &client_address,
+                           (socklen_t *) &client_address_length);
+
+    // Return the client_fd
+    return client_fd;
+}

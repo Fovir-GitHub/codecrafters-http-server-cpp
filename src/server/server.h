@@ -30,6 +30,13 @@ public:
      * @return int server_fd
      */
     int InitializeSocket();
+
+    /**
+     *@brief Accept the connection from client
+     *
+     * @return int client_fd
+     */
+    int AcceptClient();
 };
 
 class ServerException : std::exception
