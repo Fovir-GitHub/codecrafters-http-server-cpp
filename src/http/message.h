@@ -73,7 +73,7 @@ private:
         std::string                                  body;
 
     public:
-        Response(int st);
+        Response(int st = 200);
 
         /**
          * @brief Set one header line with key-value pair
@@ -82,6 +82,14 @@ private:
          * @param value the value of the header
          */
         void SetHeaderLine(const std::string & key, const std::string & value);
+
+        // Some `Set-` method
+        void SetBody(const std::string & b) { body = b; }
+        void SetStatusCode(const int sc) { status_line.status_code = sc; }
+        void SetHttpVersion(const std::string & hv)
+        {
+            status_line.http_version = hv;
+        }
 
         /**
          *@brief Clear the header lines
@@ -92,6 +100,8 @@ private:
          *@brief Construct `response` member value
          */
         void MakeResponse();
+
+        const std::string & GetResponse() const { return response; }
     };
 
     std::unique_ptr<Request> request;
