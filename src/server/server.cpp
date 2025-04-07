@@ -180,6 +180,9 @@ void server::Server::HandleClient(int client_fd)
 
 void server::Server::SetResponse()
 {
+    // Clear the response before setting
+    http_message.GetResponsePointer()->Clear();
+
     const std::vector<std::string> & request_path =
         http_message.GetRequestPointer()->GetParsedPath();
 
@@ -225,9 +228,6 @@ void server::Server::HandleUserAgent()
 
 void server::Server::HandleFile(const std::vector<std::string> & request_path)
 {
-    http_message.GetResponsePointer()->ClearBody();
-    http_message.GetResponsePointer()->ClearHeaderLine();
-
     // If the file exists
     if (existFile(request_path.at(1)))
     {
@@ -241,6 +241,9 @@ void server::Server::HandleFile(const std::vector<std::string> & request_path)
 
         try
         {
+            std::cout << "file to open: "
+                      << fs::current_path().string() + "/" + request_path.at(1)
+                      << '\n';
             // Open the file
             fin.open(fs::current_path().string() + "/" + request_path.at(1),
                      std::ios::binary);
