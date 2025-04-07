@@ -169,8 +169,12 @@ void server::Server::HandleClient(int client_fd)
             break;
 
         http_message.SetRequest(received_message);
-        this->SetResponse();
-        this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
+        if (http_message.GetRequestPointer()->GetHttpMethod() == "GET")
+            this->HandleGETMethod(client_fd);
+
+        // this->SetResponse();
+        // this->Send(client_fd,
+        // http_message.GetResponsePointer()->GetResponse());
     }
 
     std::cout << "Connection closed\n";
@@ -275,4 +279,10 @@ void server::Server::HandleDefault()
                                                                          : 404);
 
     return;
+}
+
+void server::Server::HandleGETMethod(int client_fd)
+{
+    this->SetResponse();
+    this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
 }

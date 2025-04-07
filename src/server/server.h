@@ -96,6 +96,13 @@ public:
      *@brief Handle the default situation
      */
     void HandleDefault();
+
+    /**
+     *@brief Handle the GET http method
+     *
+     * @param client_fd the client file description
+     */
+    void HandleGETMethod(int client_fd);
 };
 
 class ServerException : std::exception
