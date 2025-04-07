@@ -10,6 +10,7 @@ const std::unordered_map<int, std::string>
     message::Message::Response::HTTP_STATUS_CODE = {
         {200, "OK"},
         {404, "Not Found"},
+        {201, "Created"},
 };
 
 std::string
