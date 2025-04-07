@@ -62,10 +62,26 @@ private:
             return header_lines;
         }
 
+        /**
+         *@brief Get the header line by given key
+         *
+         * @param key the key of the header line
+         * @return const std::string& the value of the header line
+         */
         const std::string & GetHeaderLines(const std::string & key) const;
 
+        /**
+         *@brief Get the original path of the request
+         *
+         * @return const std::string& the original path
+         */
         const std::string & GetOriginalPath() const { return status_line.path; }
 
+        /**
+         *@brief Get the absolute path of the request path
+         *
+         * @return const std::string the full path of the file
+         */
         const std::string GetFullPath() const;
 
         /**
