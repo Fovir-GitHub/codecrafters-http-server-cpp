@@ -115,12 +115,6 @@ private:
         {
             int         status_code  = 200;
             std::string http_version = "1.1";
-
-            // StatusLine(int sc = 200, const std::string & hv = "1.1")
-            //     : status_code(sc)
-            //     , http_version(hv)
-            // {
-            // }
         } status_line;
 
         std::string                                  response;
@@ -171,6 +165,13 @@ private:
         void MakeResponse();
 
         const std::string & GetResponse() const { return response; }
+
+        /**
+         *@brief Get the response body
+         *
+         * @return std::string the body
+         */
+        std::string GetBody() const { return body; }
     };
 
     std::unique_ptr<Request>  request;
