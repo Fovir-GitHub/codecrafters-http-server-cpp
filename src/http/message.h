@@ -120,6 +120,15 @@ private:
         void ClearBody() { body.clear(); }
 
         /**
+         *@brief Clear the response
+         */
+        void Clear()
+        {
+            ClearHeaderLine();
+            ClearBody();
+        }
+
+        /**
          *@brief Construct `response` member value
          */
         void MakeResponse();
