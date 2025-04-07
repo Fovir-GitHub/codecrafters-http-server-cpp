@@ -114,6 +114,8 @@ public:
                           const std::vector<std::string> & request_path);
 
     void HandleCompression();
+
+    std::string GzipCompression(const std::string & data);
 };
 
 class ServerException : std::exception
