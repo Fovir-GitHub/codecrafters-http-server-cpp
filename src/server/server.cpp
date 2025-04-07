@@ -169,12 +169,13 @@ void server::Server::HandleClient(int client_fd)
             break;
 
         http_message.SetRequest(received_message);
-        if (http_message.GetRequestPointer()->GetHttpMethod() == "GET")
-            this->HandleGETMethod(client_fd);
 
-        // this->SetResponse();
-        // this->Send(client_fd,
-        // http_message.GetResponsePointer()->GetResponse());
+        // If the method is POST
+        if (http_message.GetRequestPointer()->GetHttpMethod() == "POST")
+            this->HandlePOSTMethod(
+                client_fd, http_message.GetRequestPointer()->GetParsedPath());
+        else /* By default, handle GET method */
+            this->HandleGETMethod(client_fd);
     }
 
     std::cout << "Connection closed\n";
@@ -285,4 +286,38 @@ void server::Server::HandleGETMethod(int client_fd)
 {
     this->SetResponse();
     this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
+}
+
+void server::Server::HandlePOSTMethod(
+    int client_fd, const std::vector<std::string> & request_path)
+{
+    std::ofstream fout;
+
+    try
+    {
+        fout.open(fs::current_path().string() + "/" + request_path.at(1),
+                  std::ios::binary);
+
+        // Fail to open the file
+        if (fout.fail())
+            throw server::ServerException("fail to write file");
+    }
+    catch (const server::ServerException & e)
+    {
+        std::cerr << e.what() << '\n';
+        return;
+    }
+
+    // Write the file and close the file
+    fout << http_message.GetRequestPointer()->GetBody();
+    fout.close();
+
+    // Set the response
+    http_message.GetResponsePointer()->SetStatusCode(201);
+
+    // Make the response and send it
+    http_message.GetResponsePointer()->MakeResponse();
+    this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
+
+    return;
 }

@@ -103,6 +103,15 @@ public:
      * @param client_fd the client file description
      */
     void HandleGETMethod(int client_fd);
+
+    /**
+     *@brief Handle the POST http method
+     *
+     * @param client_fd the client file description
+     * @param request_path the parsed request path
+     */
+    void HandlePOSTMethod(int                              client_fd,
+                          const std::vector<std::string> & request_path);
 };
 
 class ServerException : std::exception
