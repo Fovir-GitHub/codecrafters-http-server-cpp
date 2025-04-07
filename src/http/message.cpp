@@ -93,6 +93,22 @@ const std::string message::Message::Request::GetFullPath() const
     return fs::current_path().string() + status_line.path;
 }
 
+const std::vector<std::string>
+message::Message::Request::GetCompressionOptions()
+{
+    if (header_lines.find("Accept-Encoding") == header_lines.end())
+        return std::vector<std::string>();
+
+    std::vector<std::string> compression_options;
+    std::string              option;
+    std::istringstream       iss(header_lines["Accept-Encoding"]);
+
+    while (std::getline(iss, option, ','))
+        compression_options.push_back(TrimInvisibleCharacters(option));
+
+    return;
+}
+
 void message::Message::Response::SetHeaderLine(const std::string & key,
                                                const std::string & value)
 {

@@ -97,6 +97,13 @@ private:
          * @return const std::string& the method
          */
         const std::string & GetHttpMethod() const { return status_line.method; }
+
+        /**
+         * @brief Get the types of compression
+         *
+         * @return const std::vector<std::string> the types of compressions
+         */
+        const std::vector<std::string> GetCompressionOptions();
     };
 
     class Response
