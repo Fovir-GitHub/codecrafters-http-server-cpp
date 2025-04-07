@@ -309,7 +309,7 @@ void server::Server::HandlePOSTMethod(
     }
 
     // Write the file and close the file
-    fout << http_message.GetRequestPointer()->GetBody();
+    fout << http_message.GetRequestPointer()->GetBody() << '\n';
     fout.close();
 
     // Set the response
