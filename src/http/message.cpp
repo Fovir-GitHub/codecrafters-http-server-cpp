@@ -106,7 +106,7 @@ message::Message::Request::GetCompressionOptions()
     while (std::getline(iss, option, ','))
         compression_options.push_back(TrimInvisibleCharacters(option));
 
-    return;
+    return compression_options;
 }
 
 void message::Message::Response::SetHeaderLine(const std::string & key,
