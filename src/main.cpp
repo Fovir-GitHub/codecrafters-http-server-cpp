@@ -1,15 +1,6 @@
 #include "server/server.h"
-#include <arpa/inet.h>
-#include <cstdlib>
-#include <cstring>
 #include <filesystem>
-#include <iostream>
-#include <netdb.h>
-#include <string>
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <thread>
-#include <unistd.h>
 
 namespace fs = std::filesystem;
 
