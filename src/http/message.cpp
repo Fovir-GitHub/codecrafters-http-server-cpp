@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
+#include <fstream>
 #include <sstream>
 
 namespace fs = std::filesystem;
@@ -66,8 +67,8 @@ message::Message::Request::Request(const std::string & original_request)
     }
 
     // The remain part is body
-    body = std::string(std::istreambuf_iterator<char>(iss),
-                       std::istreambuf_iterator<char>());
+    body = TrimInvisibleCharacters(std::string(
+        std::istreambuf_iterator<char>(iss), std::istreambuf_iterator<char>()));
 
     ParsePath(); /* Parse the request path */
 }
