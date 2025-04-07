@@ -115,6 +115,11 @@ private:
         void ClearHeaderLine() { header_lines.clear(); }
 
         /**
+         *@brief Clear the response body
+         */
+        void ClearBody() { body.clear(); }
+
+        /**
          *@brief Construct `response` member value
          */
         void MakeResponse();
