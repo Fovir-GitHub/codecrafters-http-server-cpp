@@ -225,6 +225,9 @@ void server::Server::HandleUserAgent()
 
 void server::Server::HandleFile()
 {
+    http_message.GetResponsePointer()->ClearBody();
+    http_message.GetResponsePointer()->ClearHeaderLine();
+
     // If the file exists
     if (existFile(http_message.GetRequestPointer()->GetFullPath(), true))
     {
