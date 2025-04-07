@@ -190,7 +190,7 @@ void server::Server::SetResponse()
         HandleEcho(request_path);
     else if (request_path.at(0) == "user-agent")
         HandleUserAgent();
-    else if (request_path.at(0) == "file")
+    else if (request_path.at(0) == "files")
         HandleFile(request_path);
 
     http_message.GetResponsePointer()->MakeResponse();
@@ -241,9 +241,6 @@ void server::Server::HandleFile(const std::vector<std::string> & request_path)
 
         try
         {
-            std::cout << "file to open: "
-                      << fs::current_path().string() + "/" + request_path.at(1)
-                      << '\n';
             // Open the file
             fin.open(fs::current_path().string() + "/" + request_path.at(1),
                      std::ios::binary);
