@@ -173,6 +173,10 @@ void server::Server::HandleClient(int client_fd)
 
         http_message.SetRequest(received_message);
 
+        // Clear the response before setting
+        http_message.GetResponsePointer()->Clear();
+
+        HandleCompression();
         // If the method is POST
         if (http_message.GetRequestPointer()->GetHttpMethod() == "POST")
             this->HandlePOSTMethod(
@@ -188,9 +192,6 @@ void server::Server::HandleClient(int client_fd)
 
 void server::Server::SetResponse()
 {
-    // Clear the response before setting
-    http_message.GetResponsePointer()->Clear();
-
     const std::vector<std::string> & request_path =
         http_message.GetRequestPointer()->GetParsedPath();
 
@@ -323,4 +324,15 @@ void server::Server::HandlePOSTMethod(
     this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
 
     return;
+}
+
+void server::Server::HandleCompression()
+{
+    std::vector<std::string> compression_options =
+        http_message.GetRequestPointer()->GetCompressionOptions();
+
+    if (std::find(compression_options.begin(), compression_options.end(),
+                  "gzip") != compression_options.end())
+        http_message.GetResponsePointer()->SetHeaderLine("Content-Encoding",
+                                                         "gzip");
 }

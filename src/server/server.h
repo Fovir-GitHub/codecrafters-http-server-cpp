@@ -112,6 +112,8 @@ public:
      */
     void HandlePOSTMethod(int                              client_fd,
                           const std::vector<std::string> & request_path);
+
+    void HandleCompression();
 };
 
 class ServerException : std::exception
