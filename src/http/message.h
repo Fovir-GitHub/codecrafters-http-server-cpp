@@ -67,6 +67,13 @@ private:
         const std::string & GetOriginalPath() const { return status_line.path; }
 
         const std::string GetFullPath() const;
+
+        /**
+         * @brief Get the http method from the status line
+         *
+         * @return const std::string& the method
+         */
+        const std::string & GetHttpMethod() const { return status_line.method; }
     };
 
     class Response
