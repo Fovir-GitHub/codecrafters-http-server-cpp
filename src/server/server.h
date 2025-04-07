@@ -91,6 +91,11 @@ public:
      *@brief Set the response when the client tries to access a file
      */
     void HandleFile(const std::vector<std::string> & request_path);
+
+    /**
+     *@brief Handle the default situation
+     */
+    void HandleDefault();
 };
 
 class ServerException : std::exception

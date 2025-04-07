@@ -192,6 +192,8 @@ void server::Server::SetResponse()
         HandleUserAgent();
     else if (request_path.at(0) == "files")
         HandleFile(request_path);
+    else
+        HandleDefault();
 
     http_message.GetResponsePointer()->MakeResponse();
 
@@ -262,6 +264,15 @@ void server::Server::HandleFile(const std::vector<std::string> & request_path)
     }
     else
         http_message.GetResponsePointer()->SetStatusCode(404);
+
+    return;
+}
+
+void server::Server::HandleDefault()
+{
+    http_message.GetResponsePointer()->SetStatusCode(
+        existFile(http_message.GetRequestPointer()->GetFullPath(), true) ? 200
+                                                                         : 404);
 
     return;
 }
