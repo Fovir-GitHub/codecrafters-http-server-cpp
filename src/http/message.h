@@ -71,6 +71,13 @@ private:
         const std::string & GetHeaderLines(const std::string & key) const;
 
         /**
+         *@brief Get the request body
+         *
+         * @return const std::string& the request body
+         */
+        const std::string & GetBody() const { return body; }
+
+        /**
          *@brief Get the original path of the request
          *
          * @return const std::string& the original path
