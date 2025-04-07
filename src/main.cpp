@@ -1,5 +1,6 @@
 #include "server/server.h"
 #include <filesystem>
+#include <string>
 #include <thread>
 
 namespace fs = std::filesystem;
