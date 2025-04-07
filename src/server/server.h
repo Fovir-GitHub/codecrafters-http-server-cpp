@@ -90,7 +90,7 @@ public:
     /**
      *@brief Set the response when the client tries to access a file
      */
-    void HandleFile();
+    void HandleFile(const std::vector<std::string> & request_path);
 };
 
 class ServerException : std::exception

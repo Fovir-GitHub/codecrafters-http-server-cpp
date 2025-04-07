@@ -187,8 +187,8 @@ void server::Server::SetResponse()
         HandleEcho(request_path);
     else if (request_path.at(0) == "user-agent")
         HandleUserAgent();
-    else
-        HandleFile();
+    else if (request_path.at(0) == "file")
+        HandleFile(request_path);
 
     http_message.GetResponsePointer()->MakeResponse();
 
@@ -223,20 +223,21 @@ void server::Server::HandleUserAgent()
     return;
 }
 
-void server::Server::HandleFile()
+void server::Server::HandleFile(const std::vector<std::string> & request_path)
 {
     http_message.GetResponsePointer()->ClearBody();
     http_message.GetResponsePointer()->ClearHeaderLine();
 
     // If the file exists
-    if (existFile(http_message.GetRequestPointer()->GetFullPath(), true))
+    if (existFile(request_path.at(1)))
     {
         http_message.GetResponsePointer()->SetStatusCode(200);
         http_message.GetResponsePointer()->SetHeaderLine(
             "Content-Type", "application/octet-stream");
 
         // Read the file content
-        std::ifstream      fin(http_message.GetRequestPointer()->GetFullPath(),
+        std::ifstream      fin(fs::current_path().string() + "/" +
+                                   request_path.at(1),
                                std::ios::binary);
         std::ostringstream oss;
         char               ch;
