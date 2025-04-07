@@ -176,7 +176,7 @@ void server::Server::HandleClient(int client_fd)
         // Clear the response before setting
         http_message.GetResponsePointer()->Clear();
 
-        HandleCompression();
+        // HandleCompression();
         // If the method is POST
         if (http_message.GetRequestPointer()->GetHttpMethod() == "POST")
             this->HandlePOSTMethod(
@@ -335,4 +335,6 @@ void server::Server::HandleCompression()
                   "gzip") != compression_options.end())
         http_message.GetResponsePointer()->SetHeaderLine("Content-Encoding",
                                                          "gzip");
+
+    return;
 }
