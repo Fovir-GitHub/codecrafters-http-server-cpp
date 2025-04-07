@@ -235,15 +235,29 @@ void server::Server::HandleFile(const std::vector<std::string> & request_path)
         http_message.GetResponsePointer()->SetHeaderLine(
             "Content-Type", "application/octet-stream");
 
-        // Read the file content
-        std::ifstream      fin(fs::current_path().string() + "/" +
-                                   request_path.at(1),
-                               std::ios::binary);
+        std::ifstream      fin;
         std::ostringstream oss;
         char               ch;
 
+        try
+        {
+            // Open the file
+            fin.open(fs::current_path().string() + "/" + request_path.at(1),
+                     std::ios::binary);
+
+            // If open failed
+            if (fin.fail())
+                throw server::ServerException("fail to open file");
+        }
+        catch (const server::ServerException & e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
+        // Read the file content
         while (fin.get(ch)) oss << ch;
 
+        fin.close(); /* Close the file */
         http_message.GetResponsePointer()->SetBody(oss.str());
     }
     else
