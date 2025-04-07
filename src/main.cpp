@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 
 int main(int argc, char ** argv)
 {
-    if (argc == 3 && argv[1] == "--directory")
+    if (argc == 3 && std::string(argv[1]) == "--directory")
         fs::current_path(argv[2]);
 
     server::Server http_server(4221);
