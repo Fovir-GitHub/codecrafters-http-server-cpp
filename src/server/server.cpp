@@ -136,6 +136,9 @@ std::string server::Server::Receive(int client_fd)
         std::cerr << e.what() << '\n';
     }
 
+    // Resize the received data
+    received.resize(receive_bytes);
+
     /*
     If the receive_bytes is 0, it means the connection is closed.
     By returning empty string, the main program can handle the situation.
@@ -309,7 +312,7 @@ void server::Server::HandlePOSTMethod(
     }
 
     // Write the file and close the file
-    fout << http_message.GetRequestPointer()->GetBody() << '\n';
+    fout << http_message.GetRequestPointer()->GetBody();
     fout.close();
 
     // Set the response
