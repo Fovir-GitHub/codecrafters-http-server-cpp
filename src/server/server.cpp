@@ -85,7 +85,7 @@ int server::Server::InitializeSocket()
 void server::Server::Listen()
 {
     // The maximum number of connection
-    int connection_backlog = 5;
+    int connection_backlog = 500;
 
     try
     {
