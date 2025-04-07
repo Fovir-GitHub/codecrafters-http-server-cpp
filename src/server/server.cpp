@@ -176,7 +176,6 @@ void server::Server::HandleClient(int client_fd)
         // Clear the response before setting
         http_message.GetResponsePointer()->Clear();
 
-        // HandleCompression();
         // If the method is POST
         if (http_message.GetRequestPointer()->GetHttpMethod() == "POST")
             this->HandlePOSTMethod(
@@ -288,6 +287,7 @@ void server::Server::HandleDefault()
 
 void server::Server::HandleGETMethod(int client_fd)
 {
+    HandleCompression();
     this->SetResponse();
     this->Send(client_fd, http_message.GetResponsePointer()->GetResponse());
 }
