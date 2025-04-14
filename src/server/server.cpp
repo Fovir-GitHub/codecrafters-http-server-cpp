@@ -178,6 +178,9 @@ void server::Server::HandleClient(int client_fd)
         // Clear the response before setting
         http_message.GetResponsePointer()->Clear();
 
+        // Set the `Connection' header in response
+        HandleConnectionClose();
+
         // If the method is POST
         if (http_message.GetRequestPointer()->GetHttpMethod() == "POST")
             this->HandlePOSTMethod(
@@ -389,4 +392,17 @@ std::string server::Server::GzipCompression(const std::string & data)
                                  std::to_string(ret) + ") " + zs.msg);
 
     return outstring;
+}
+
+void server::Server::HandleConnectionClose()
+{
+    /**
+     * If the `Connection' header is `close',
+     * then set the `Connection' header to `close' in response as well
+     */
+    if (http_message.GetRequestPointer()->GetHeaderLines().at("Connection") ==
+        "close")
+        http_message.GetResponsePointer()->SetHeaderLine("Connection", "close");
+
+    return;
 }

@@ -125,6 +125,11 @@ public:
      * @return std::string data after compression
      */
     std::string GzipCompression(const std::string & data);
+
+    /**
+     *@brief Set the `Connection' header in response
+     */
+    void HandleConnectionClose();
 };
 
 class ServerException : std::exception
