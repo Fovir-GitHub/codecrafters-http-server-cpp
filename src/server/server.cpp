@@ -185,12 +185,15 @@ void server::Server::HandleClient(int client_fd)
         else /* By default, handle GET method */
             this->HandleGETMethod(client_fd);
 
+        // This connection is not persistent
         if (http_message.GetRequestPointer()->GetHeaderLines().at(
                 "Connection") == "close")
             break;
     }
 
     std::cout << "Connection closed\n";
+
+    // Close the client file descriptor
     close(client_fd);
 
     return;
