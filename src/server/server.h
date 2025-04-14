@@ -113,8 +113,17 @@ public:
     void HandlePOSTMethod(int                              client_fd,
                           const std::vector<std::string> & request_path);
 
+    /**
+     *@brief Handle the compression operation
+     */
     void HandleCompression();
 
+    /**
+     *@brief Gzip compression function
+     *
+     * @param data
+     * @return std::string data after compression
+     */
     std::string GzipCompression(const std::string & data);
 };
 
