@@ -184,9 +184,14 @@ void server::Server::HandleClient(int client_fd)
                 client_fd, http_message.GetRequestPointer()->GetParsedPath());
         else /* By default, handle GET method */
             this->HandleGETMethod(client_fd);
+
+        if (http_message.GetRequestPointer()->GetHeaderLines().at(
+                "Connection") == "close")
+            break;
     }
 
     std::cout << "Connection closed\n";
+    close(client_fd);
 
     return;
 }
