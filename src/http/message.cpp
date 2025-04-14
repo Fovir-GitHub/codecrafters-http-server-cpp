@@ -71,6 +71,13 @@ message::Message::Request::Request(const std::string & original_request)
         std::istreambuf_iterator<char>(iss), std::istreambuf_iterator<char>()));
 
     ParsePath(); /* Parse the request path */
+
+    /**
+     * If the header `Connection' does not exist,
+     * set it to `keep-alivd' by default.
+     */
+    if (header_lines.find("Connection") == header_lines.end())
+        header_lines["Connection"] = "keep-alive";
 }
 
 const std::string &
